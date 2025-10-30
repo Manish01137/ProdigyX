@@ -1,89 +1,114 @@
-:root{
-    --nav-height: 72px;      /* fallback height */
-    --nav-bg: rgba(255,255,255,0.28);
-    --nav-border: rgba(255,255,255,0.36);
-    --accent: #06283D;      /* dark navy blue */
+:root {
+    --accent: #06283D; /* dark navy blue */
     --accent-light: #0B486B;
-    --text-dark: #06283D;
-    --glass-blur: 12px;
+    --glass-bg: rgba(255, 255, 255, 0.25);
+    --glass-border: rgba(255, 255, 255, 0.3);
+    --blur: 12px;
   }
   
-  /* fixed topbar (keeps it above content) */
+  /* === Navbar container === */
   .topbar {
-    position: fixed;        /* ensures it stays on top and doesn't push content */
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    height: var(--nav-height);
+    height: 80px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 12px 28px;
-    background: linear-gradient(180deg, rgba(255,255,255,0.44), rgba(255,255,255,0.22));
-    border-bottom: 1px solid var(--nav-border);
-    backdrop-filter: blur(var(--glass-blur));
-    -webkit-backdrop-filter: blur(var(--glass-blur));
-    box-shadow: 0 8px 30px rgba(5,13,26,0.08);
-    z-index: 9999;          /* high so it sits above content */
-    gap: 12px;
-    transition: height .18s ease, padding .18s ease;
+    padding: 10px 40px;
+    background: var(--glass-bg);
+    border-bottom: 1px solid var(--glass-border);
+    backdrop-filter: blur(var(--blur));
+    -webkit-backdrop-filter: blur(var(--blur));
+    box-shadow: 0 4px 20px rgba(6, 24, 40, 0.05);
+    z-index: 999;
   }
   
-  /* brand */
-  .brand {
-    font-weight: 700;
-    font-size: 1.25rem;
-    letter-spacing: .4px;
-    background: linear-gradient(90deg, var(--accent) 0%, var(--accent-light) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+  /* === Logo section === */
+  .logo a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
   }
   
-  /* navigation */
+  /* ✅ Clean logo, no filters, no hover effect */
+  .brand-logo {
+    height: 60px; /* adjust size as needed */
+    width: auto;
+    object-fit: contain;
+    display: block;
+  }
+  
+  /* === Navigation section === */
   .nav {
     display: flex;
     align-items: center;
-    gap: 12px;               /* spacing between buttons */
-    flex-shrink: 0;
+    gap: 16px;
   }
   
-  /* button styles */
   .nav-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 8px 16px;
+    padding: 10px 18px;
     border-radius: 10px;
-    text-decoration: none;
     font-weight: 600;
-    font-size: 0.95rem;
-    color: var(--text-dark);
-    background: rgba(255,255,255,0.78);
-    border: 1px solid rgba(255,255,255,0.6);
-    box-shadow: 0 6px 18px rgba(6,40,61,0.06);
-    transition: transform .16s ease, background .16s ease, color .16s ease;
-    min-width: 82px;
-    text-align:center;
-  }
-  
-  /* outlined variant */
-  .nav-btn.outlined{
-    background: transparent;
+    text-decoration: none;
     color: var(--accent);
-    border: 1px solid rgba(6,40,61,0.12);
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    transition: all 0.25s ease;
   }
   
-  /* hover states */
-  .nav-btn:hover{
-    transform: translateY(-2px);
+  .nav-btn:hover {
     background: var(--accent);
-    color: #fff;
+    color: white;
   }
   
-  /* responsive: collapse spacing on small screens */
-  @media (max-width:720px){
-    .topbar { padding:10px 16px; }
-    .brand { font-size: 1.05rem; }
-    .nav-btn { padding:7px 12px; font-size:0.92rem; min-width:70px; }
+  /* Outlined Login button */
+  .nav-btn.outlined {
+    background: transparent;
+    border: 2px solid var(--accent);
+    color: var(--accent);
+  }
+  
+  .nav-btn.outlined:hover {
+    background: var(--accent);
+    color: white;
+  }
+  
+  /* === Responsive behavior === */
+  @media (max-width: 768px) {
+    .topbar {
+      height: 70px;
+      padding: 10px 20px;
+    }
+    .brand-logo {
+      height: 48px;
+    }
+    .nav-btn {
+      padding: 8px 14px;
+      font-size: 0.9rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .topbar {
+      height: 64px;
+      padding: 8px 16px;
+    }
+    .brand-logo {
+      height: 42px;
+    }
+    .nav-btn {
+      padding: 7px 12px;
+      font-size: 0.85rem;
+    }
+  }
+  
+  /* Prevent page content from hiding behind header */
+  body {
+    padding-top: 80px;
   }
   
