@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>College Placement & Verification Portal - Demo</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">Placement & Verification Portal</div>
+    <nav class="nav">
+      <button id="nav-register" class="nav-btn">Register</button>
+      <button id="nav-student" class="nav-btn">Student Dashboard</button>
+      <button id="nav-company" class="nav-btn">Company Portal</button>
+      <button id="nav-admin" class="nav-btn">Placement Cell</button>
+    </nav>
+  </header>
+
+  <main class="container">
+   
+ 
+
+    <!-- Student Dashboard -->
+    <section id="page-student" class="page hidden">
+      <h2>Student Dashboard</h2>
+      <div id="student-area">
+        <p>Select a registered student (or register one).</p>
+      </div>
+    </section>
+
+    <!-- Company Portal -->
+    <section id="page-company" class="page hidden">
+      <h2>Company Recruitment Portal</h2>
+      <div class="card">
+        <div class="toolbar">
+          <input id="company-filter" placeholder="Filter by skill, college, degree..." />
+        </div>
+        <table id="company-table" class="table">
+          <thead>
+            <tr><th>Name</th><th>College</th><th>Skills</th><th>Score</th><th>Report</th><th>Shortlist</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Placement Cell (Admin) -->
+    <section id="page-admin" class="page hidden">
+      <h2>Placement Cell Dashboard</h2>
+      <div class="card">
+        <h3>Notifications</h3>
+        <ul id="placement-notifs" class="list"></ul>
+      </div>
+      <div class="card">
+        <h3>All Students</h3>
+        <table id="admin-table" class="table">
+          <thead><tr><th>Name</th><th>Status</th><th>Pipeline</th><th>Actions</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- Templates / Modals -->
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
