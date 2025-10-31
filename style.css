@@ -1,31 +1,112 @@
+
+/* -----------------------------------------------------------
+   GLOBAL VARIABLES
+----------------------------------------------------------- */
 :root {
-    --accent: #06283D; /* dark navy blue */
-    --accent-light: #0B486B;
-    --glass-bg: rgba(255, 255, 255, 0.25);
-    --glass-border: rgba(255, 255, 255, 0.3);
-    --blur: 12px;
-  }
-  
-  /* === Navbar container === */
-  .topbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 80px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 40px;
-    background: var(--glass-bg);
-    border-bottom: 1px solid var(--glass-border);
-    backdrop-filter: blur(var(--blur));
-    -webkit-backdrop-filter: blur(var(--blur));
-    box-shadow: 0 4px 20px rgba(6, 24, 40, 0.05);
-    z-index: 999;
-  }
-  
-  /* === Logo section === */
+  --nav-height: 72px;
+  --nav-bg: rgba(255,255,255,0.28);
+  --nav-border: rgba(255,255,255,0.36);
+  --accent: #06283D;      /* dark navy blue */
+  --accent-light: #0B486B;
+  --text-dark: #06283D;
+  --text-muted: #5f6b75;
+  --glass-blur: 12px;
+  --bg-light: #f8fafc;
+  --radius-lg: 18px;
+  --fw-heading: 800;
+  --fw-medium: 600;
+  --fw-regular: 400;
+  font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+/* -----------------------------------------------------------
+   RESET & BASE
+----------------------------------------------------------- */
+* { box-sizing: border-box; }
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+body {
+  background: linear-gradient(180deg, #ffffff, var(--bg-light));
+  color: var(--text-dark);
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.5;
+  font-family: inherit;
+  scroll-behavior: smooth;
+}
+
+/* -----------------------------------------------------------
+   FIXED TOPBAR
+----------------------------------------------------------- */
+.topbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--nav-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 28px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.44), rgba(255,255,255,0.22));
+  border-bottom: 1px solid var(--nav-border);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  box-shadow: 0 8px 30px rgba(5,13,26,0.08);
+  z-index: 9999;
+  gap: 12px;
+  transition: height .18s ease, padding .18s ease;
+}
+
+/* brand */
+.brand {
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: .4px;
+  background: linear-gradient(90deg, var(--accent) 0%, var(--accent-light) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* navigation */
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+/* nav buttons */
+.nav-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--text-dark);
+  background: rgba(255,255,255,0.78);
+  border: 1px solid rgba(255,255,255,0.6);
+  box-shadow: 0 6px 18px rgba(6,40,61,0.06);
+  transition: transform .16s ease, background .16s ease, color .16s ease;
+  min-width: 82px;
+  text-align:center;
+}
+
+.nav-btn.outlined {
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid rgba(6,40,61,0.12);
+}
+
+.nav-btn:hover {
+  transform: translateY(-2px);
+  background: var(--accent);
+  color: #fff;
+}
+/* === Logo section === */
   .logo a {
     display: flex;
     align-items: center;
@@ -37,78 +118,300 @@
     height: 60px; /* adjust size as needed */
     width: auto;
     object-fit: contain;
-    display: block;
+    display:block;
   }
-  
-  /* === Navigation section === */
-  .nav {
-    display: flex;
+
+/* responsive topbar */
+@media (max-width:720px){
+  .topbar { padding:10px 16px; }
+  .brand { font-size: 1.05rem; }
+  .nav-btn { padding:7px 12px; font-size:0.92rem; min-width:70px; }
+}
+/* -----------------------------------------------------------
+   HERO SECTION
+----------------------------------------------------------- */
+.container {
+  padding-top: var(--nav-height);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  min-height: calc(100vh - var(--nav-height));
+  overflow-x: hidden;
+}
+
+.hero {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, #ffffff, #f7f9fb);
+  padding: 80px 20px 40px;
+}
+
+.hero-inner {
+  max-width: 1200px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+  align-items: center;
+}
+
+/* Left visual (circle) */
+.hero-visual {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.circle-frame {
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  position: relative;
+  overflow: visible;
+  padding: 18px;
+  background: radial-gradient(circle at 30% 25%, rgba(11,72,107,0.18), rgba(6,40,61,0.1) 50%, transparent 70%);
+  box-shadow: 0 12px 30px rgba(16,24,40,0.08), inset 0 -6px 18px rgba(0,0,0,0.03);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.circle-frame .main-photo {
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 6px 18px rgba(2,6,23,0.12);
+  transition: transform .45s ease;
+}
+
+.avatar {
+  position: absolute;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #fff;
+  box-shadow: 0 6px 16px rgba(2,6,23,0.12);
+  transition: transform .28s ease, box-shadow .28s ease;
+}
+
+.avatar-1 { width: 64px; height: 64px; left: 12px; top: 18px; }
+.avatar-2 { width: 54px; height: 54px; right: 18px; top: 34px; }
+.avatar-3 { width: 56px; height: 56px; left: 32px; bottom: 22px; }
+.avatar-4 { width: 46px; height: 46px; right: 46px; bottom: 26px; }
+
+.circle-frame:hover .main-photo { transform: scale(1.04) rotate(-0.6deg); }
+.avatar:hover { transform: translateY(-6px) scale(1.05); box-shadow: 0 10px 22px rgba(2,6,23,0.14); }
+
+/* Center content */
+.hero-content {
+  text-align: center;
+}
+
+.hero-title {
+  font-size: 1.8rem;
+  line-height: 1.2;
+  margin: 0 0 12px;
+  font-weight: var(--fw-heading);
+  color: var(--text-dark);
+}
+
+.hero-description {
+  color: var(--text-muted);
+  max-width: 54ch;
+  margin: 0 auto 20px;
+  font-size: 1rem;
+}
+
+.hero-ctas {
+  display: inline-flex;
+  gap: 14px;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-weight: 600;
+  transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+  cursor: pointer;
+  min-width: 120px;
+  text-align: center;
+}
+
+/* Primary CTA */
+.btn-primary {
+  background: linear-gradient(180deg, var(--accent-light), var(--accent));
+  color: #fff;
+  box-shadow: 0 8px 20px rgba(11,72,107,0.2);
+  border: none;
+}
+.btn-primary:hover { transform: translateY(-4px); box-shadow: 0 14px 30px rgba(11,72,107,0.22); }
+
+/* Outline CTA */
+.btn-outline {
+  background: #fff;
+  color: var(--accent);
+  border: 2px solid rgba(6,40,61,0.18);
+  box-shadow: 0 6px 18px rgba(2,6,23,0.04);
+}
+.btn-outline:hover {
+  transform: translateY(-3px);
+  background: rgba(255,255,255,0.96);
+}
+
+/* Stats row */
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin-top: 10px;
+  justify-items: center;
+  opacity: .95;
+}
+
+.stat { text-align: center; }
+.stat-number { font-weight: 700; font-size: 1.1rem; color: var(--accent); }
+.stat-label { font-size: .78rem; color: var(--text-muted); }
+
+/* RESPONSIVE */
+@media (min-width: 880px) {
+  .hero-inner {
+    grid-template-columns: 360px 1fr;
+    gap: 60px;
     align-items: center;
-    gap: 16px;
   }
-  
-  .nav-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px 18px;
-    border-radius: 10px;
-    font-weight: 600;
-    text-decoration: none;
-    color: var(--accent);
-    background: rgba(255, 255, 255, 0.7);
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    transition: all 0.25s ease;
-  }
-  
-  .nav-btn:hover {
-    background: var(--accent);
-    color: white;
-  }
-  
-  /* Outlined Login button */
-  .nav-btn.outlined {
-    background: transparent;
-    border: 2px solid var(--accent);
-    color: var(--accent);
-  }
-  
-  .nav-btn.outlined:hover {
-    background: var(--accent);
-    color: white;
-  }
-  
-  /* === Responsive behavior === */
-  @media (max-width: 768px) {
-    .topbar {
-      height: 70px;
-      padding: 10px 20px;
-    }
-    .brand-logo {
-      height: 48px;
-    }
-    .nav-btn {
-      padding: 8px 14px;
-      font-size: 0.9rem;
-    }
-  }
-  
-  @media (max-width: 480px) {
-    .topbar {
-      height: 64px;
-      padding: 8px 16px;
-    }
-    .brand-logo {
-      height: 42px;
-    }
-    .nav-btn {
-      padding: 7px 12px;
-      font-size: 0.85rem;
-    }
-  }
-  
-  /* Prevent page content from hiding behind header */
-  body {
-    padding-top: 80px;
-  }
-  
+  .hero-visual { justify-content: start; }
+  .hero-content { text-align: left; }
+  .hero-title { font-size: 2.6rem; }
+  .hero-description { font-size: 1.05rem; }
+  .hero-stats { grid-template-columns: repeat(4,1fr); justify-items: start; gap: 28px; margin-top: 24px; }
+}
+
+@media (max-width: 480px) {
+  .circle-frame { width: 240px; height: 240px; padding: 14px; }
+  .circle-frame .main-photo { width: 180px; height: 180px; }
+  .hero-title { font-size: 1.4rem; }
+  .hero-ctas { flex-direction: column; gap: 10px; }
+  .btn { width: 100%; border-radius: 10px; }
+}
+
+/* Accessibility: reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  .main-photo, .avatar, .btn { transition: none !important; transform: none !important; }
+}
+
+/* ---------------------------
+   Partners / Marquee section
+   Append below other styles
+   --------------------------- */
+
+.partners {
+  width: 100%;
+  padding: 36px 20px;
+  background: linear-gradient(180deg, rgba(6,40,61,0.02), rgba(6,40,61,0.01));
+  border-top: 1px solid rgba(6,40,61,0.03);
+  margin-top: 20px;
+}
+
+.partners-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  gap: 18px;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.partners-title {
+  margin: 0 0 14px 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+/* marquee wrapper */
+.marquee {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  border-radius: 12px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.6), rgba(255,255,255,0.4));
+  padding: 14px 8px;
+  box-shadow: 0 6px 20px rgba(2,6,23,0.04);
+}
+
+/* the moving track (two groups sit side by side) */
+.marquee-track {
+  display: flex;
+  gap: 40px;
+  align-items: center;
+  /* animation defined by CSS variables set by JS (or default below) */
+  --marquee-duration: 14s;     /* default duration; longer = slower */
+  --marquee-direction: normal; /* normal = left->right animation depends on keyframes below */
+  animation: marqueeLR var(--marquee-duration) linear infinite var(--marquee-direction);
+  will-change: transform;
+}
+
+/* group of logos (will be duplicated for seamless loop) */
+.marquee-group {
+  display: flex;
+  gap: 32px;
+  align-items: center;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+/* logo */
+.partner-logo {
+  display: block;
+  height: 60px;      /* adjust as needed */
+  width: auto;
+  filter: grayscale(0.02) saturate(0.95);
+  object-fit: contain;
+  border-radius: 6px;
+  background: #fff;
+  padding: 6px;
+  box-shadow: 0 6px 18px rgba(2,6,23,0.06);
+  transition: transform .18s ease, filter .18s ease;
+}
+
+/* small hover lift */
+.partner-logo:hover {
+  transform: translateY(-6px) scale(1.02);
+  filter: grayscale(0) saturate(1.05);
+}
+
+/* keyframes for left-to-right motion
+   We animate the track from -50% to 0 to move the content rightwards.
+   Implementation relies on duplicated content so the loop is seamless.
+*/
+@keyframes marqueeLR {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0%); }
+}
+
+/* pause on hover */
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+/* reduce motion support */
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none !important; transform: none !important; }
+  .partner-logo { transition: none !important; }
+}
+/* responsive tweaks */
+@media (max-width: 680px) {
+  .partner-logo { height: 44px; }
+  .marquee-group { gap: 18px; }
+  .marquee-track { gap: 24px; }
+}

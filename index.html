@@ -4,13 +4,16 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>College Placement & Verification Portal - Demo</title>
+  <!-- Google Fonts: Poppins -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
     <header class="topbar" id="site-topbar">
         <div class="logo">
           
-            <img src="images/prodigilogo2.jpeg" alt="ProdigyX Logo" class="brand-logo">
+          <img src="images/prodigilogo2.jpeg" alt="ProdigyX Logo" class="brand-logo">
          
         </div>
       
@@ -21,15 +24,106 @@
       </header>
       
       
-      
+    
+    <!-- HERO SECTION -->
+  <main class="container" id="main" role="main">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-inner">
+        <!-- LEFT: circular photo collage -->
+        <aside class="hero-visual" aria-hidden="false">
+          <div class="circle-frame" role="img" aria-label="Collage of diverse college students">
+            <img class="main-photo"
+                 src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?q=80&w=1200&auto=format&fit=crop&s=placeholder"
+                 alt="Group of students smiling and working together">
 
-  <main class="container">
-   
+            <!-- Overlapping smaller avatars -->
+            <img class="avatar avatar-1"
+                 src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=400&auto=format&fit=crop&s=placeholder"
+                 alt="Student portrait">
+            <img class="avatar avatar-2"
+                 src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=400&auto=format&fit=crop&s=placeholder"
+                 alt="Student portrait">
+            <img class="avatar avatar-3"
+                 src="https://images.unsplash.com/photo-1544723795-3fb6469f5b39?q=80&w=400&auto=format&fit=crop&s=placeholder"
+                 alt="Student portrait">
+            <img class="avatar avatar-4"
+                 src="https://images.unsplash.com/photo-1508216316573-4c0c1e0a2f58?q=80&w=400&auto=format&fit=crop&s=placeholder"
+                 alt="Student portrait">
+          </div>
+        </aside>
+
+        <!-- CENTER: main content -->
+        <section class="hero-content">
+          <h1 id="hero-title" class="hero-title">Empowering Students for a Brighter Future</h1>
+
+          <p class="hero-description">
+            A platform connecting students, educators, and opportunities to help you achieve your academic and career goals.
+            Join a community built for collaboration, growth, and success.
+          </p>
+
+          <div class="hero-ctas" role="group" aria-label="Primary site actions">
+            <a class="btn btn-primary" href="#college" id="cta-college" role="button">College</a>
+            <a class="btn btn-outline" href="#student" id="cta-student" role="button">Student</a>
+          </div>
+
+          <!-- Optional small stats -->
+          <div class="hero-stats" aria-hidden="true">
+            <div class="stat">
+              <div class="stat-number">120+</div>
+              <div class="stat-label">Colleges</div>
+            </div>
+            <div class="stat">
+              <div class="stat-number">8k+</div>
+              <div class="stat-label">Students</div>
+            </div>
+            <div class="stat">
+              <div class="stat-number">500+</div>
+              <div class="stat-label">Programs</div>
+            </div>
+            <div class="stat">
+              <div class="stat-number">98%</div>
+              <div class="stat-label">Satisfaction</div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </section>
+
+    <!-- Companies marquee (place below hero content inside <main>) -->
+<section class="partners" aria-label="Our partner companies">
+  <div class="partners-inner">
+    <h2 class="partners-title">Trusted by leading companies</h2>
+
+    <!-- marquee wrapper -->
+    <div class="marquee" aria-hidden="false">
+      <div class="marquee-track" id="marqueeTrack" aria-hidden="true">
+        <!-- Repeat this block of logos; these are duplicated automatically by CSS/JS for seamless loop -->
+        <div class="marquee-group">
+          <img src="https://via.placeholder.com/160x60?text=Company+1" alt="Company 1 logo" class="partner-logo">
+          <img src="https://via.placeholder.com/160x60?text=Company+2" alt="Company 2 logo" class="partner-logo">
+          <img src="https://via.placeholder.com/160x60?text=Company+3" alt="Company 3 logo" class="partner-logo">
+          <img src="https://via.placeholder.com/160x60?text=Company+4" alt="Company 4 logo" class="partner-logo">
+          <img src="https://via.placeholder.com/160x60?text=Company+5" alt="Company 5 logo" class="partner-logo">
+          <img src="https://via.placeholder.com/160x60?text=Company+6" alt="Company 6 logo" class="partner-logo">
+        </div>
+
+        <!-- duplicate group for seamless looping; you can keep this or let JS clone it -->
+        <div class="marquee-group" aria-hidden="true">
+          <img src="https://via.placeholder.com/160x60?text=Company+1" alt="" class="partner-logo">
+          <img src="https://via.placeholder.com/160x60?text=Company+2" alt="" class="partner-logo">
+          <img src="https://via.placeholder.com/160x60?text=Company+3" alt="" class="partner-logo">
+          <img src="https://via.placeholder.com/160x60?text=Company+4" alt="" class="partner-logo">
+          <img src="https://via.placeholder.com/160x60?text=Company+5" alt="" class="partner-logo">
+          <img src="https://via.placeholder.com/160x60?text=Company+6" alt="" class="partner-logo">
+        </div>
+      </div>
+    </div>
 
     
+  </div>
+</section>
 
-    
-  
   </main>
 
   <!-- Templates / Modals -->
