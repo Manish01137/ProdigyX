@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Portal — Student & Admin</title>
+
+  <link rel="stylesheet" href="student.css" />
+</head>
+<body>
+  <main class="container">
+    <header class="header">
+      <div class="brand">
+        <div class="logo">★</div>
+        <div class="site">
+          <div class="name">ProdigyX Portal</div>
+          <div class="tag">Student & Admin Login</div>
+        </div>
+      </div>
+    </header>
+
+    <section class="card" id="card" aria-live="polite">
+      <!-- chooser -->
+      <div id="chooser" class="chooser">
+        <button id="openStudent" class="choice">Student Portal</button>
+        <button id="openAdmin" class="choice outline">Admin Portal</button>
+      </div>
+
+      <!-- forms -->
+      <div class="forms" id="forms">
+        <!-- Student -->
+        <form id="studentForm" class="form hidden" action="student_login.php" method="POST" novalidate>
+          <button type="button" class="back" data-back>← Back</button>
+          <h2>Student Login</h2>
+
+          <label class="field">
+            <input id="s-email" name="email" type="email" required autocomplete="email" placeholder=" " />
+            <span class="label">Email</span>
+          </label>
+
+          <label class="field">
+            <input id="s-pass" name="password" type="password" required minlength="6" autocomplete="current-password" placeholder=" " />
+            <span class="label">Password</span>
+            <button type="button" class="pw" data-target="s-pass">Show</button>
+          </label>
+
+          <div class="row">
+            <label class="small"><input type="checkbox" name="remember"> Remember</label>
+            <a href="#" class="link">Forgot?</a>
+          </div>
+
+          <button type="submit" class="btn primary">Login</button>
+        </form>
+
+        <!-- Admin -->
+        <form id="adminForm" class="form hidden" action="admin_login.php" method="POST" novalidate>
+          <button type="button" class="back" data-back>← Back</button>
+          <h2>Admin Login</h2>
+
+          <label class="field">
+            <input id="a-user" name="username" type="text" required autocomplete="username" placeholder=" " />
+            <span class="label">Username</span>
+          </label>
+
+          <label class="field">
+            <input id="a-pass" name="password" type="password" required minlength="6" autocomplete="current-password" placeholder=" " />
+            <span class="label">Password</span>
+            <button type="button" class="pw" data-target="a-pass">Show</button>
+          </label>
+
+          <div class="row">
+            <label class="small"><input type="checkbox" name="remember"> Keep me signed</label>
+            <a href="#" class="link">Reset?</a>
+          </div>
+
+          <button type="submit" class="btn outline">Admin Sign in</button>
+        </form>
+      </div>
+
+      <footer class="foot">
+        <small>© <span id="year"></span> ProdigyX</small>
+      </footer>
+    </section>
+  </main>
+
+  <script src="student.js"></script>
+</body>
+</html>
