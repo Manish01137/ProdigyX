@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ProdigyX — Company Dashboard</title>
+
+  <!-- Poppins -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="companyDashboard.css" />
+</head>
+<body>
+  <!-- SIDEBAR -->
+  <aside id="sidebar" class="sidebar" aria-label="Main navigation">
+    <button id="sidebar-toggle" class="hamburger" aria-expanded="true" aria-controls="sidebar-menu" aria-label="Toggle navigation">
+      ☰
+    </button>
+
+    <nav id="sidebar-menu" class="sidebar-menu" role="navigation" aria-label="Sidebar menu">
+      <ul>
+        <li><button class="menu-item" data-key="talent" tabindex="0">Talent Pool</button></li>
+        <li><button class="menu-item" data-key="interview" tabindex="0">Interview</button></li>
+        <li><button class="menu-item" data-key="postjob" tabindex="0">Post Job opportunities</button></li>
+      </ul>
+    </nav>
+
+    <div class="sidebar-brand" aria-hidden="false">
+      
+    </div>
+  </aside>
+
+  <!-- TOPBAR -->
+  <header class="topbar" role="banner" aria-label="Top bar">
+    <div class="topbar-left">
+      <h1 class="page-title" id="page-title">Dashboard</h1>
+      <div class="search">
+        <label for="search-input" class="visually-hidden">Search candidates or positions</label>
+        <input id="search-input" type="search" placeholder="Search candidates or positions…" aria-label="Search candidates or positions">
+      </div>
+    </div>
+
+    <div class="topbar-right" role="navigation" aria-label="Top navigation">
+      <div class="company-name" id="company-name" title="Company name">Company</div>
+
+      <button id="theme-toggle" class="theme-toggle" aria-pressed="false" title="Toggle light / dark theme">
+        <span class="theme-icon" aria-hidden="true">◐</span>
+      </button>
+
+      <div class="avatar" title="Company profile" aria-hidden="true">A</div>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main id="main" class="main" role="main">
+    <section class="cards" aria-label="Summary cards">
+      <article class="card" id="card-hirings" tabindex="0" role="button" aria-pressed="false">
+        <div class="card-icon">🏆</div>
+        <div class="card-body">
+          <div class="card-title">Your Hirings</div>
+          <div class="card-value" id="your-hirings">—</div>
+          <div class="card-meta"><span id="hirings-change">+0%</span> this year</div>
+        </div>
+        <div class="card-sparkline" aria-hidden="true" id="spark-hirings"></div>
+      </article>
+
+      <article class="card" id="card-verified" tabindex="0" role="button" aria-pressed="false">
+        <div class="card-icon">✔️</div>
+        <div class="card-body">
+          <div class="card-title">New Verified Candidates</div>
+          <div class="card-value" id="new-verified">—</div>
+          <div class="card-meta"><a href="#" id="link-verified">View recent</a></div>
+        </div>
+        <div class="card-sparkline" aria-hidden="true" id="spark-verified"></div>
+      </article>
+
+      <article class="card" id="card-positions" tabindex="0" role="button" aria-pressed="false">
+        <div class="card-icon">📋</div>
+        <div class="card-body">
+          <div class="card-title">Positions Listed</div>
+          <div class="card-value" id="positions-listed">—</div>
+          <div class="card-meta"><button id="post-job-btn" class="link-btn">Post new job</button></div>
+        </div>
+        <div class="card-sparkline" aria-hidden="true" id="spark-positions"></div>
+      </article>
+
+      <article class="card" id="card-shortlisted" tabindex="0" role="button" aria-pressed="false">
+        <div class="card-icon">⭐</div>
+        <div class="card-body">
+          <div class="card-title">Your Shortlisted</div>
+          <div class="card-value" id="shortlisted-count">—</div>
+          <div class="card-meta"><a href="#" id="link-shortlist">Quick view</a></div>
+        </div>
+        <div class="card-sparkline" aria-hidden="true" id="spark-shortlisted"></div>
+      </article>
+    </section>
+
+    <section class="layout-two-col">
+      <!-- LEFT: Calendar + Upcoming interviews -->
+      <div class="panel calendar-panel" aria-labelledby="cal-title">
+        <header class="panel-header">
+          <h2 id="cal-title">Interview This Week</h2>
+          <div class="panel-actions">
+            <button id="prev-week" title="Previous week" aria-label="Previous week">‹</button>
+            <button id="next-week" title="Next week" aria-label="Next week">›</button>
+          </div>
+        </header>
+
+        <div id="week-grid" class="week-grid" role="grid" aria-label="Week view calendar"></div>
+
+        <div class="upcoming">
+          <h3>Upcoming Interviews</h3>
+          <ul id="upcoming-list" class="upcoming-list" aria-live="polite"></ul>
+        </div>
+      </div>
+
+      <!-- RIGHT: Activity & Quick actions -->
+      <aside class="panel activity-panel" aria-labelledby="activity-title">
+        <header class="panel-header">
+          <h2 id="activity-title">Recent Activity</h2>
+        </header>
+
+        <div id="activity-feed" class="activity-feed" aria-live="polite"></div>
+
+        <div class="quick-actions" aria-label="Quick actions">
+          <button id="quick-shortlist">Shortlist candidate</button>
+          <button id="quick-invite">Invite to interview</button>
+          <button id="quick-export">Export CSV</button>
+        </div>
+      </aside>
+    </section>
+
+    <footer class="footer" role="contentinfo">
+      <small>© <span id="year"></span> ProdigyX • Support</small>
+    </footer>
+  </main>
+
+  <!-- Modal -->
+  <div id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-panel">
+      <button id="modal-close" class="modal-close" aria-label="Close">✕</button>
+      <h3 id="modal-title">Interview details</h3>
+      <div id="modal-body"></div>
+      <div class="modal-actions">
+        <a id="modal-join" class="btn" href="#" target="_blank" rel="noopener">Join meeting</a>
+        <button id="modal-add-ics">Add to calendar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="companyDashboard.js"></script>
+</body>
+</html>
