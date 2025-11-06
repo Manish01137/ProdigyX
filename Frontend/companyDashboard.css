@@ -174,3 +174,35 @@ html,body { height:100%; margin:0; background:linear-gradient(180deg,var(--bg),v
   .hamburger{ display:block; }
   .sidebar.open{ transform: translateX(0); }
 }
+/* ensure topbar is positioned so center can be absolute */
+.topbar { position: fixed; left: var(--nav-width); right: 0; top: 0; height: 64px; display: flex; align-items: center; justify-content: space-between; padding: 12px 18px; gap: 12px; z-index: 50; }
+
+/* centered wrapper that doesn't block clicks on other items */
+.topbar-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  pointer-events: none; /* let clicks pass through to search / right-side items */
+  z-index: 45;
+}
+
+/* brand itself is readable/focusable if you want; enable pointer-events for it only if needed */
+.brand-top {
+  pointer-events: auto; /* if you want brand clickable later, otherwise can keep none */
+  font-weight: 800;
+  color: var(--accent);
+  letter-spacing: 0.4px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 1.05rem;
+  white-space: nowrap;
+}
+
+/* make sure on small screens brand doesn't overlap search — reduce size if needed */
+@media (max-width: 720px) {
+  .brand-top { font-size: 0.95rem; }
+  .search input { min-width: 160px; } /* keep search small so brand can fit */
+}
