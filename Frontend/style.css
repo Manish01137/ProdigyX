@@ -308,3 +308,335 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .main-photo, .avatar, .btn { transition: none !important; transform: none !important; }
 }
+
+
+/* -------------------------
+   Collaborate (plain-text link) + popup
+   ------------------------- */
+   .collaborate-wrapper {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    margin-left: 8px;
+  }
+  
+  /* plain-text look (not a button visually) */
+  .collaborate-link {
+    background: transparent;
+    border: none;
+    padding: 8px 10px;
+    font-weight: 600;
+    color: var(--accent);
+    font-size: 0.95rem;
+    cursor: pointer;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    line-height: 1;
+    outline: none;
+  }
+  
+  /* subtle underline animation */
+  .link-underline {
+    content: "";
+    display: inline-block;
+    height: 2px;
+    width: 0;
+    background: linear-gradient(90deg, var(--accent-light), var(--accent));
+    border-radius: 2px;
+    position: absolute;
+    left: 50%;
+    bottom: 6px;
+    transform: translateX(-50%);
+    transition: width .22s ease;
+  }
+  .collaborate-link:hover .link-underline,
+  .collaborate-link:focus .link-underline,
+  .collaborate-wrapper.open .link-underline {
+    width: 60%;
+  }
+  
+  /* popup container - hidden by default */
+  .collab-popup {
+    position: absolute;
+    top: 130%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-6px) scale(.98);
+    min-width: 240px;
+    max-width: 320px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 14px 40px rgba(6,40,61,0.14);
+    border: 1px solid rgba(6,40,61,0.08);
+    padding: 14px 16px;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 9999;
+    transition: opacity .22s ease, transform .22s ease;
+    transform-origin: top center;
+    color: var(--text-dark);
+    text-align: left;
+    font-size: 0.95rem;
+    line-height: 1.35;
+  }
+  
+  /* popup inner spacing */
+  .collab-popup .popup-inner p { margin: 0; }
+  
+  /* arrow (visual pointer) */
+  .popup-arrow {
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 14px;
+    height: 14px;
+    background: #fff;
+    border-left: 1px solid rgba(6,40,61,0.06);
+    border-top: 1px solid rgba(6,40,61,0.06);
+    transform: translateX(-50%) rotate(45deg);
+    box-shadow: 0 6px 12px rgba(6,40,61,0.06);
+    border-radius: 2px;
+    z-index: -1;
+  }
+  
+  /* show on hover (desktop) */
+  .collaborate-wrapper:hover .collab-popup,
+  .collaborate-wrapper:focus-within .collab-popup,
+  .collaborate-wrapper.open .collab-popup {
+    opacity: 1;
+    transform: translateX(-50%) translateY(6px) scale(1);
+    pointer-events: auto;
+  }
+  
+  /* email link style */
+  .collab-email {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 700;
+  }
+  .collab-email:hover,
+  .collab-email:focus { text-decoration: underline; }
+  
+  /* small visual entrance animation */
+  @keyframes popupPop {
+    from { opacity: 0; transform: translateX(-50%) translateY(-2px) scale(.98); }
+    to   { opacity: 1; transform: translateX(-50%) translateY(6px) scale(1); }
+  }
+  .collaborate-wrapper.open .collab-popup {
+    animation: popupPop .22s ease both;
+  }
+  
+  /* Responsive rules for mobile */
+  @media (max-width: 720px) {
+    .nav { gap: 8px; align-items: center; }
+  
+    /* on small screens make popup full width-ish and anchored below nav */
+    .collab-popup {
+      left: auto;
+      right: 12px;
+      top: calc(100% + 10px);
+      transform: translateY(0);
+      min-width: 220px;
+      max-width: calc(100vw - 36px);
+      border-radius: 12px;
+      padding: 12px 14px;
+    }
+    .popup-arrow { display: none; }
+  
+    /* make the plain-text a little more tappable */
+    .collaborate-link { padding: 10px 12px; border-radius: 8px; }
+  
+    /* optionally dim other nav items when popup is open (visual focus) */
+    .collaborate-wrapper.open ~ .nav > .nav-btn { opacity: 0.9; transform: none; }
+  }
+
+  
+  /* -------------------------
+   MOBILE RESPONSIVENESS FIX
+------------------------- */
+@media (max-width: 720px) {
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  /* make Collaborate link smaller but still visible */
+  .collaborate-link {
+    padding: 6px 8px;
+    font-size: 0.9rem;
+    color: var(--accent);
+    border-radius: 6px;
+    white-space: nowrap;
+  }
+
+  /* ensure it doesn't disappear behind nav */
+  .collaborate-wrapper {
+    position: relative;
+    z-index: 10000;
+  }
+
+  /* reposition popup for mobile */
+  .collab-popup {
+    top: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%) scale(1);
+    min-width: 260px;
+    width: max-content;
+    max-width: 90vw;
+    padding: 12px 14px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(6,40,61,0.12);
+  }
+
+  .popup-arrow {
+    display: none; /* no arrow on small screens */
+  }
+
+  /* smooth fade-in effect for better UX */
+  .collab-popup {
+    transition: opacity .25s ease, transform .25s ease;
+  }
+}
+
+/* ---------- Topbar inner layout ---------- */
+.topbar { height: var(--nav-height); padding: 8px 18px; }
+.topbar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* shrink logo gently on mobile */
+.brand-logo { height: 56px; }
+
+/* nav container */
+.nav { display:flex; align-items:center; gap:10px; }
+
+/* ensure nav-items show inline on desktop */
+.menu-wrapper { display:flex; align-items:center; gap:10px; }
+
+/* hide the compact hamburger by default (desktop) */
+.menu-toggle { display:none; }
+
+/* collaborate styles */
+.collaborate-wrapper { position: relative; display:flex; align-items:center; }
+.collaborate-link {
+  background: transparent;
+  border: none;
+  padding: 6px 10px;
+  font-weight: 600;
+  color: var(--accent);
+  cursor: pointer;
+  display: inline-flex;
+  align-items:center;
+  gap:8px;
+  border-radius: 8px;
+}
+
+/* collab text is visible on larger screens */
+.collab-text { display:inline-block; font-size:0.95rem; }
+
+/* compact circular icon hidden on desktop */
+.collab-icon { display:none; color:var(--accent); }
+
+/* popup */
+.collab-popup {
+  position:absolute;
+  top: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 260px;
+  max-width: 360px;
+  background:#fff;
+  padding:12px 14px;
+  border-radius:12px;
+  box-shadow:0 14px 40px rgba(6,40,61,0.12);
+  border:1px solid rgba(6,40,61,0.06);
+  opacity:0;
+  pointer-events:none;
+  transition: opacity .18s ease, transform .18s ease;
+  transform-origin: top center;
+  z-index:10001;
+}
+.collaborate-wrapper.open .collab-popup { opacity:1; transform: translateX(-50%) translateY(6px); pointer-events:auto; }
+
+/* email link */
+.collab-email { color:var(--accent); font-weight:700; text-decoration:none; }
+
+/* ---------- Mobile adjustments ---------- */
+@media (max-width: 720px) {
+  .topbar { padding: 6px 12px; }
+  .brand-logo { height: 44px; } /* smaller logo */
+
+  /* hide desktop nav items, show hamburger */
+  .nav-items { display: none; }
+  .menu-toggle {
+    display: inline-flex;
+    width: 44px;
+    height: 44px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    border: none;
+    background: rgba(255,255,255,0.95);
+    box-shadow: 0 8px 24px rgba(6,40,61,0.06);
+    cursor:pointer;
+  }
+  .menu-bar { width:18px; height:2px; background:var(--accent); display:block; border-radius:2px; transition: transform .22s ease, opacity .18s ease; margin:2px 0; }
+
+  /* show compact icon, hide full text */
+  .collab-text { display:none; }
+  .collab-icon { display:inline-flex; width:36px; height:36px; align-items:center; justify-content:center; border-radius:10px; }
+
+  /* position collab-left of hamburger for balanced spacing */
+  .nav { gap:8px; align-items:center; justify-content:flex-end; }
+  .collaborate-wrapper { order:1; margin-right:6px; z-index:10002; }
+  .menu-wrapper { order:2; position:relative; z-index:10001; }
+
+  /* mobile menu panel */
+  .menu-wrapper .nav-items.mobile-open {
+    display:flex;
+    position:absolute;
+    top: calc(var(--nav-height) + 8px);
+    right: 12px;
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px;
+    background:#fff;
+    border-radius:12px;
+    border:1px solid rgba(6,40,61,0.06);
+    box-shadow: 0 18px 60px rgba(6,40,61,0.12);
+    min-width:180px;
+    z-index:10000;
+    animation: slideDown .16s ease both;
+  }
+
+  @keyframes slideDown {
+    from { opacity:0; transform: translateY(-6px) scale(.98); }
+    to { opacity:1; transform: translateY(0) scale(1); }
+  }
+
+  /* make collab-popup full width-ish and centered under icon */
+  .collab-popup {
+    left: auto;
+    right: 12px;
+    top: calc(100% + 10px);
+    transform: translateY(0);
+    min-width: 220px;
+    max-width: calc(100vw - 32px);
+  }
+}
+
+/* animate hamburger to X when open */
+.menu-wrapper.open .m1 { transform: translateY(6px) rotate(45deg); }
+.menu-wrapper.open .m2 { opacity: 0; transform: scaleX(.6); }
+.menu-wrapper.open .m3 { transform: translateY(-6px) rotate(-45deg); }

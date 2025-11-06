@@ -10,18 +10,110 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <header class="topbar" id="site-topbar">
-        <div class="logo">
-          
-          <img src="images/prodigilogo2.jpeg" alt="ProdigyX Logo" class="brand-logo">
-         
+  <header class="topbar" id="site-topbar">
+    <div class="topbar-inner">
+      <div class="logo">
+        <img src="images/prodigilogo2.jpeg" alt="ProdigyX Logo" class="brand-logo">
+      </div>
+  
+      <nav class="nav" role="navigation" aria-label="Main">
+        <!-- Collaborate: visible outside the menu; becomes compact icon on mobile -->
+        <div class="collaborate-wrapper">
+          <button class="collaborate-link" aria-haspopup="dialog" aria-expanded="false" id="collabToggle" aria-label="Collaborate with ProdigyX">
+            <!-- text for desktop -->
+            <span class="collab-text">Collaborate with Us</span>
+            <!-- compact circle icon for mobile -->
+            <span class="collab-icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M12 2v2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                <circle cx="12" cy="13" r="6" stroke="currentColor" stroke-width="1.6" fill="none"/>
+                <path d="M12 10.5v1.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              </svg>
+            </span>
+          </button>
+  
+          <div class="collab-popup" id="collabPopup" role="dialog" aria-hidden="true" aria-label="Collaborate information">
+            <div class="popup-inner">
+              <p style="margin:0;">
+                Interested in partnering or investing in <strong>ProdigyX</strong>? We’re onboarding institutional &amp; strategic partners.
+              </p>
+              <p style="margin:10px 0 0 0;">
+                📧 <a href="mailto:dhruvakashinathrai@gmail.com" class="collab-email">dhruvakashinathrai@gmail.com</a>
+              </p>
+            </div>
+          </div>
         </div>
-      
-        <nav class="nav" role="navigation" aria-label="Main">
-          <a href="#" id="nav-apply" class="nav-btn">Apply</a>
-          <a href="student.html" id="nav-login" class="nav-btn outlined">Login</a>
-        </nav>
-      </header>
+  
+        <!-- Menu wrapper: full buttons on desktop; compact hamburger on mobile -->
+        <div class="menu-wrapper">
+          <div class="nav-items" id="navItems">
+            <a href="#" id="nav-apply" class="nav-btn">Apply</a>
+            <a href="student.html" id="nav-login" class="nav-btn outlined">Login</a>
+          </div>
+  
+          <button id="menuToggle" class="menu-toggle" aria-expanded="false" aria-label="Open menu">
+            <span class="menu-bar m1"></span>
+            <span class="menu-bar m2"></span>
+            <span class="menu-bar m3"></span>
+          </button>
+        </div>
+      </nav>
+    </div>
+  </header>
+  
+  
+  <script>
+    (function(){
+      const collabWrapper = document.querySelector('.collaborate-wrapper');
+      const collabToggle = document.getElementById('collabToggle');
+      const collabPopup = document.getElementById('collabPopup');
+    
+      const menuWrapper = document.querySelector('.menu-wrapper');
+      const menuToggle = document.getElementById('menuToggle');
+      const navItems = document.getElementById('navItems');
+    
+      // Collab toggle
+      if (collabToggle && collabWrapper && collabPopup) {
+        function openCollab(){ collabWrapper.classList.add('open'); collabToggle.setAttribute('aria-expanded','true'); collabPopup.setAttribute('aria-hidden','false'); }
+        function closeCollab(){ collabWrapper.classList.remove('open'); collabToggle.setAttribute('aria-expanded','false'); collabPopup.setAttribute('aria-hidden','true'); }
+    
+        collabToggle.addEventListener('click', function(e){
+          e.stopPropagation();
+          if (collabWrapper.classList.contains('open')) closeCollab(); else openCollab();
+        });
+    
+        document.addEventListener('click', function(e){
+          if (!collabWrapper.contains(e.target)) closeCollab();
+        });
+    
+        document.addEventListener('keydown', function(e){
+          if (e.key === 'Escape') closeCollab();
+        });
+      }
+    
+      // Menu toggle (mobile)
+      if (menuToggle && menuWrapper && navItems) {
+        function openMenu(){ menuWrapper.classList.add('open'); menuToggle.setAttribute('aria-expanded','true'); navItems.classList.add('mobile-open'); navItems.setAttribute('aria-hidden','false'); }
+        function closeMenu(){ menuWrapper.classList.remove('open'); menuToggle.setAttribute('aria-expanded','false'); navItems.classList.remove('mobile-open'); navItems.setAttribute('aria-hidden','true'); }
+    
+        menuToggle.addEventListener('click', function(e){
+          e.stopPropagation();
+          if (menuWrapper.classList.contains('open')) closeMenu(); else openMenu();
+        });
+    
+        document.addEventListener('click', function(e){
+          if (!menuWrapper.contains(e.target)) closeMenu();
+        });
+    
+        document.addEventListener('keydown', function(e){
+          if (e.key === 'Escape') closeMenu();
+        });
+      }
+    })();
+    </script>
+    
+  
+  
       
     <!-- HERO SECTION -->
   <main class="container" id="main" role="main">
