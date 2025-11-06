@@ -1,0 +1,167 @@
+/* Admin Portal Styles */
+body {
+    background: linear-gradient(180deg, #ffffff, #f7f9fb);
+    color: var(--text-dark);
+    font-family: inherit;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Header */
+  .ap-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(180deg, var(--accent-light), var(--accent));
+    padding: 14px 22px;
+    color: #fff;
+    box-shadow: 0 6px 20px rgba(6,40,61,0.15);
+  }
+  .ap-logo {
+    height: 44px;
+    object-fit: contain;
+    border-radius: 8px;
+  }
+  
+  /* Container */
+  .ap-container {
+    max-width: 1100px;
+    margin: 30px auto;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  /* KPI Row */
+  .ap-kpi-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+  }
+  .ap-kpi-card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 18px;
+    text-align: center;
+    box-shadow: 0 8px 24px rgba(6,40,61,0.05);
+  }
+  .ap-kpi-card h3 {
+    margin: 0;
+    font-size: 1.6rem;
+    color: var(--accent);
+  }
+  
+  /* Card structure */
+  .card {
+    background: #fff;
+    border-radius: var(--radius-lg);
+    padding: 18px;
+    box-shadow: 0 8px 24px rgba(6,40,61,0.05);
+  }
+  .card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .card-head h2 {
+    margin: 0;
+    font-size: 1.2rem;
+  }
+  
+  /* Controls */
+  .ap-controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .ap-controls input, .ap-controls select {
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(6,40,61,0.08);
+  }
+  
+  /* Table */
+  .table-wrap {
+    overflow-x: auto;
+    margin-top: 10px;
+  }
+  .ap-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .ap-table th, .ap-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(6,40,61,0.06);
+    text-align: left;
+  }
+  .ap-table th {
+    color: var(--accent);
+    font-weight: 600;
+  }
+  
+  /* Drives */
+  .drive-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .drive-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(180deg,#fff,#f8fafc);
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(6,40,61,0.06);
+  }
+  
+  /* Scheduler */
+  #scheduleForm {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 10px;
+  }
+  #scheduleForm label {
+    display: flex;
+    flex-direction: column;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+  #scheduleForm input, #scheduleForm select {
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid rgba(6,40,61,0.08);
+    margin-top: 4px;
+  }
+  #scheduleForm button {
+    grid-column: 1 / span 2;
+    justify-self: start;
+    margin-top: 8px;
+  }
+  
+  /* Footer */
+  .ap-footer {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    padding: 12px 0;
+    margin-top: 20px;
+    border-top: 1px solid rgba(6,40,61,0.06);
+  }
+  
+  /* Responsive */
+  @media (max-width: 720px) {
+    #scheduleForm {
+      grid-template-columns: 1fr;
+    }
+    .ap-controls {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }
+  

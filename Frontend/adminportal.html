@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ProdigyX — College Admin Portal</title>
+
+  <!-- global style (your site) -->
+  
+  <!-- admin portal style -->
+  <link rel="stylesheet" href="adminportal.css" />
+</head>
+
+<body>
+  <header class="ap-header">
+    <img src="../images/prodigilogo2.jpeg" alt="ProdigyX Logo" class="ap-logo">
+    <h1>College Admin Portal</h1>
+    <button id="apLogout" class="btn">Logout</button>
+  </header>
+
+  <main class="ap-container">
+
+    <!-- KPI Cards -->
+    <section class="ap-kpi-row">
+      <div class="ap-kpi-card">
+        <h3 id="totalStudents">8420</h3>
+        <p>Registered Students</p>
+      </div>
+      <div class="ap-kpi-card">
+        <h3 id="placedCount">1220</h3>
+        <p>Students Placed</p>
+      </div>
+      <div class="ap-kpi-card">
+        <h3 id="activeDrives">6</h3>
+        <p>Active Drives</p>
+      </div>
+      <div class="ap-kpi-card">
+        <h3 id="avgReadiness">74%</h3>
+        <p>Avg. Readiness</p>
+      </div>
+    </section>
+
+    <!-- Student Table -->
+    <section class="card">
+      <div class="card-head">
+        <h2>Student Management</h2>
+        <div class="ap-controls">
+          <input id="studentSearch" type="search" placeholder="Search by name, roll, skill">
+          <select id="batchFilter">
+            <option value="">All Batches</option>
+            <option value="2025">2025</option>
+            <option value="2024">2024</option>
+          </select>
+          <button id="exportStudents" class="btn btn-outline">Export CSV</button>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table id="studentTable" class="ap-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Roll No</th>
+              <th>Course</th>
+              <th>Batch</th>
+              <th>Readiness</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Drives -->
+    <section class="card">
+      <h2>Active Placement Drives</h2>
+      <div id="driveList" class="drive-list"></div>
+      <button id="createDrive" class="btn btn-primary">+ Create Drive</button>
+    </section>
+
+    <!-- Assessment Scheduler -->
+    <section class="card">
+      <h2>Assessment Scheduler</h2>
+      <form id="scheduleForm" onsubmit="return false;">
+        <label>Title <input id="testTitle" type="text" required placeholder="e.g. Aptitude Round"></label>
+        <label>Batch <select id="testBatch"><option>All</option><option>2025</option><option>2024</option></select></label>
+        <label>Date & Time <input id="testDate" type="datetime-local" required></label>
+        <label>Duration (minutes) <input id="testDuration" type="number" value="60" required></label>
+        <button id="scheduleTest" class="btn btn-primary">Schedule Test</button>
+      </form>
+    </section>
+
+    <!-- Footer -->
+    <footer class="ap-footer">
+      © <span id="year"></span> ProdigyX — College Admin Portal
+    </footer>
+
+  </main>
+
+  <script src="admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ProdigyX — Student Dashboard</title>
+
+  <!-- main site variables & fonts -->
+  <link rel="stylesheet" href="stdportal.css" />
+  <!-- dashboard styles -->
+  
+</head>
+<body>
+  <div class="sd-shell">
+
+    <!-- SIDEBAR -->
+    <aside class="sd-sidebar" id="sdSidebar" aria-label="Student navigation">
+      <div class="sd-brand">
+        <img src="../images/prodigilogo2.jpeg" alt="ProdigyX" class="sd-logo">
+        <button id="sdCollapse" class="sd-collapse" aria-expanded="true" title="Toggle menu">☰</button>
+      </div>
+
+      <nav class="sd-nav" role="navigation" aria-label="Main">
+        <a href="#" class="sd-nav-item active" data-target="dashboard">Dashboard</a>
+        <a href="#" class="sd-nav-item" data-target="assessments">Assessments</a>
+        <a href="#" class="sd-nav-item" data-target="companies">Companies</a>
+        <a href="#" class="sd-nav-item" data-target="certificates">Certificates</a>
+        <a href="#" class="sd-nav-item" data-target="profile">Profile</a>
+        <a href="#" class="sd-nav-item" data-target="settings">Settings</a>
+        <a href="#" class="sd-nav-item danger" id="sdLogout">Logout</a>
+      </nav>
+
+      <div class="sd-sidebar-footer">
+        <small class="muted">ProdigyX • Student Portal</small>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="sd-main">
+      <header class="sd-topbar">
+        <div class="sd-topbar-left">
+          <h1 class="sd-welcome">Welcome back, <span id="studentFirst">Ananya</span> 👋</h1>
+          <p class="muted sd-sub">Ready for your next assessment? Your readiness score shows how prepared you are for industry roles.</p>
+        </div>
+
+        <div class="sd-topbar-actions">
+          <div class="sd-search">
+            <input id="sdSearch" type="search" placeholder="Search companies, skills or tests">
+          </div>
+          <button id="sdProfileBtn" class="btn">Profile</button>
+        </div>
+      </header>
+
+      <section class="sd-grid">
+
+        <!-- left column -->
+        <div class="sd-col-left">
+
+          <!-- Readiness card -->
+          <div class="card sd-readiness">
+            <div class="readiness-left">
+              <h3>Readiness Index</h3>
+              <p class="muted">Industry-readiness score computed from assessments, resume & projects.</p>
+              <div class="score-wrap">
+                <div class="score-ring" data-score="78" id="scoreRing">
+                  <svg viewBox="0 0 120 120" class="ring-svg">
+                    <circle class="ring-bg" cx="60" cy="60" r="44" />
+                    <circle class="ring-fg" cx="60" cy="60" r="44" style="stroke-dasharray: 276.46; stroke-dashoffset: 60;"></circle>
+                  </svg>
+                  <div class="score-text"><span id="scoreValue">78</span><small>%</small></div>
+                </div>
+              </div>
+
+              <div class="score-breakdown">
+                <div><strong>Tests</strong><span class="muted"> 82%</span></div>
+                <div><strong>Resume</strong><span class="muted"> 75%</span></div>
+                <div><strong>Projects</strong><span class="muted"> 72%</span></div>
+              </div>
+            </div>
+
+            <div class="readiness-right">
+              <h4>Upcoming assessments</h4>
+              <ul class="upcoming-list" id="upcomingList">
+                <!-- populated by JS -->
+              </ul>
+              <button id="takeNext" class="btn btn-primary">Take Next Test</button>
+            </div>
+          </div>
+
+          <!-- Badges -->
+          <div class="card">
+            <h3>Your Badges</h3>
+            <div class="badges" id="badgesWrap">
+              <!-- JS will create badges -->
+            </div>
+          </div>
+
+          <!-- Activities -->
+          <div class="card">
+            <h3>Recent Activity</h3>
+            <ul class="activity-list" id="activityList">
+              <!-- JS populates -->
+            </ul>
+            <button id="exportTrans" class="btn btn-outline">Export Transcript (CSV)</button>
+          </div>
+
+        </div>
+
+        <!-- right column -->
+        <aside class="sd-col-right">
+
+          <!-- Matched Companies -->
+          <div class="card">
+            <div class="card-head">
+              <h3>Matched Companies</h3>
+              <input id="companyFilter" placeholder="Filter by skill or name" class="mini-input">
+            </div>
+
+            <div class="company-list" id="companyList">
+              <!-- JS populate -->
+            </div>
+          </div>
+
+          <!-- Quick profile summary -->
+          <div class="card">
+            <h3>Profile Summary</h3>
+            <div class="profile-mini">
+              <img src="../images/student1.jpg" alt="Student" class="profile-mini-photo">
+              <div>
+                <div class="profile-name" id="profileName">Ananya Mehta</div>
+                <div class="muted">B.Tech — Computer Science</div>
+                <div class="muted">VIT Pune</div>
+                <div class="profile-actions">
+                  <button id="downloadResume" class="btn">Download Resume</button>
+                  <button id="editProfile" class="btn btn-outline">Edit</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick links -->
+          <div class="card">
+            <h3>Quick Actions</h3>
+            <div class="quick-actions">
+              <button class="btn" onclick="document.querySelector('[data-target=assessments]').click()">Take Assessment</button>
+              <button class="btn" onclick="document.querySelector('[data-target=companies]').click()">Browse Companies</button>
+              <button class="btn" onclick="document.querySelector('[data-target=certificates]').click()">View Certificates</button>
+            </div>
+          </div>
+
+        </aside>
+      </section>
+
+      <!-- smaller sections: assessments, companies, certificates, profile, settings (hidden views toggled by nav) -->
+      <section class="sd-subviews" id="sdSubviews">
+        <!-- Assessments view -->
+        <div class="subview" id="assessmentsView" aria-hidden="true">
+          <h2>Assessments</h2>
+          <p class="muted">All scheduled and past assessments.</p>
+          <div class="card">
+            <table class="sd-table" id="assessTable">
+              <thead><tr><th>Assessment</th><th>Date</th><th>Duration</th><th>Score</th><th>Action</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Companies view -->
+        <div class="subview" id="companiesView" aria-hidden="true">
+          <h2>Companies</h2>
+          <p class="muted">Browse company requirements and apply directly.</p>
+          <div class="card">
+            <div class="company-grid" id="companyGrid">
+              <!-- JS populate cards -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Certificates view -->
+        <div class="subview" id="certificatesView" aria-hidden="true">
+          <h2>Certificates</h2>
+          <p class="muted">Download completed certificates.</p>
+          <div class="card" id="certWrap">
+            <!-- JS populate -->
+          </div>
+        </div>
+
+        <!-- Profile view -->
+        <div class="subview" id="profileView" aria-hidden="true">
+          <h2>Profile</h2>
+          <div class="card">
+            <form id="profileForm">
+              <label>Full name<input id="profileFull" type="text" value="Ananya Mehta"></label>
+              <label>College<input id="profileCollege" type="text" value="VIT Pune"></label>
+              <label>Course<input id="profileCourse" type="text" value="B.Tech — Computer Science"></label>
+              <label>LinkedIn<input id="profileLinkedIn" type="url" value=""></label>
+              <div class="form-actions">
+                <button type="button" id="saveProfile" class="btn btn-primary">Save</button>
+                <button type="button" id="cancelProfile" class="btn">Cancel</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Settings view -->
+        <div class="subview" id="settingsView" aria-hidden="true">
+          <h2>Settings</h2>
+          <div class="card">
+            <label>Notification preferences
+              <select id="notifPref">
+                <option>Email</option>
+                <option>SMS</option>
+                <option>None</option>
+              </select>
+            </label>
+            <label>Public profile
+              <select id="pubProfile">
+                <option>Visible to companies</option>
+                <option>Private</option>
+              </select>
+            </label>
+            <div class="form-actions">
+              <button id="saveSettings" class="btn btn-primary">Save</button>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <footer class="sd-footer muted">
+        © <span id="sdYear"></span> ProdigyX • Student Portal
+      </footer>
+    </main>
+  </div>
+
+  <script src="stportal.js" defer></script>
+</body>
+</html>
