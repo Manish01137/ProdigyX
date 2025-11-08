@@ -17,6 +17,7 @@ const MOCK = {
     shortlistedCandidates: 5,
     changes: { hirings: 8 } // percent
   },
+  
   // events across this week (ISO strings)
   events: [
     {
@@ -57,6 +58,18 @@ const MOCK = {
     'Ramesh moved to shortlisted'
   ]
 };
+/* ---------- FETCH LIVE DASHBOARD DATA FROM BACKEND ---------- */
+async function fetchDashboardData() {
+  try {
+    const res = await fetch("http://localhost:5000/api/dashboard");
+    const data = await res.json();
+    console.log("✅ Live dashboard data loaded:", data);
+    return data;
+  } catch (err) {
+    console.error("❌ Error fetching live data, using MOCK instead:", err);
+    return MOCK; // fallback to mock data
+  }
+}
 
 /* utility to create ISO for day offset and hour:minute */
 function offsetISO(dayOffset = 0, hour = 10, minute = 0) {
@@ -348,5 +361,295 @@ function toast(msg){
 
 /* open modal when event click handled earlier */
 
-/* init on DOM ready */
-document.addEventListener('DOMContentLoaded', initDashboard);
+//* ---------------- FINAL DASHBOARD INIT ---------------- */
+console.log("🚀 Dashboard initialized successfully");
+
+/* ✅ Initialize only the backend-connected dashboard */
+document.addEventListener("DOMContentLoaded", async () => {
+  await initDashboardWithBackend();
+
+  // confirm Post Job button exists
+  const postJobButton = document.getElementById("post-job-btn");
+  if (!postJobButton) {
+    console.error("❌ post-job-btn not found in DOM!");
+    return;
+  }
+
+  console.log("✅ Backend Dashboard Ready — Buttons attached properly");
+});
+
+
+/* ---------- AUTO-LOAD LIVE BACKEND DATA INTO FRONTEND ---------- */
+async function initDashboardWithBackend() {
+  initTheme();
+
+  const cname = getCompanyName();
+  const elem = document.getElementById('company-name');
+  elem.textContent = cname;
+  elem.title = cname;
+
+  // 🔥 Fetch from backend instead of MOCK
+  const data = await fetchDashboardData();
+
+  populateCounts(data.counts);
+  renderWeek(data.events, weekRef);
+  renderUpcoming(data.events);
+  renderActivity(data.activity);
+
+  // ✅ SHORTLIST CANDIDATE
+document.getElementById('quick-shortlist').addEventListener('click', async () => {
+  try {
+    const res = await fetch("http://localhost:5000/api/dashboard/shortlist", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ studentId: "690ee19e7994cd079cdee05f" }) // demo student
+    });
+
+    const data = await res.json();
+    toast(data.message || "✅ Candidate shortlisted");
+
+    await loadDashboard(); // 🔁 Refresh dashboard numbers
+  } catch (err) {
+    toast("❌ Error shortlisting candidate");
+  }
+});
+
+
+// ✅ INVITE TO INTERVIEW
+// ✅ Modern Invite Modal with Date Picker & Dropdowns
+document.getElementById("quick-invite").addEventListener("click", async () => {
+  try {
+    // Fetch students and jobs dynamically
+    const [studentsRes, jobsRes] = await Promise.all([
+      fetch("http://localhost:5000/api/dashboard/students"),
+      fetch("http://localhost:5000/api/dashboard/jobs"),
+    ]);
+    const students = await studentsRes.json();
+    const jobs = await jobsRes.json();
+
+    // Create modal overlay
+    const overlay = document.createElement("div");
+    overlay.style.position = "fixed";
+    overlay.style.top = "0";
+    overlay.style.left = "0";
+    overlay.style.width = "100vw";
+    overlay.style.height = "100vh";
+    overlay.style.background = "rgba(0,0,0,0.6)";
+    overlay.style.display = "flex";
+    overlay.style.justifyContent = "center";
+    overlay.style.alignItems = "center";
+    overlay.style.zIndex = "9999";
+
+    // Create modal box
+    const modal = document.createElement("div");
+    modal.style.background = "white";
+    modal.style.padding = "24px";
+    modal.style.borderRadius = "16px";
+    modal.style.width = "400px";
+    modal.style.boxShadow = "0 0 15px rgba(0,0,0,0.2)";
+    modal.innerHTML = `
+      <h2 style="margin-bottom:16px;text-align:center;">Schedule Interview</h2>
+      <label>Student:</label>
+      <select id="studentSelect" style="width:100%;margin-bottom:10px;padding:6px;">
+        ${students.map(s => `<option value="${s._id}">${s.name} (${s._id})</option>`).join("")}
+      </select>
+      <label>Job:</label>
+      <select id="jobSelect" style="width:100%;margin-bottom:10px;padding:6px;">
+        ${jobs.map(j => `<option value="${j._id}">${j.title} (${j._id})</option>`).join("")}
+      </select>
+      <label>Date & Time:</label>
+      <input type="datetime-local" id="interviewDate" style="width:100%;margin-bottom:16px;padding:6px;">
+      <div style="text-align:center;">
+        <button id="scheduleBtn" style="background:#0066ff;color:white;padding:8px 16px;border:none;border-radius:8px;cursor:pointer;">Schedule</button>
+        <button id="cancelBtn" style="background:#ccc;color:black;padding:8px 16px;border:none;border-radius:8px;margin-left:8px;cursor:pointer;">Cancel</button>
+      </div>
+    `;
+
+    overlay.appendChild(modal);
+    document.body.appendChild(overlay);
+
+    // Cancel button closes modal
+    document.getElementById("cancelBtn").addEventListener("click", () => overlay.remove());
+
+    // Schedule button
+    document.getElementById("scheduleBtn").addEventListener("click", async () => {
+      const studentId = document.getElementById("studentSelect").value;
+      const jobId = document.getElementById("jobSelect").value;
+      const time = document.getElementById("interviewDate").value;
+
+      if (!studentId || !jobId || !time) {
+        toast("⚠️ Please fill all fields");
+        return;
+      }
+
+     const res = await fetch("http://localhost:5000/api/dashboard/invite", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ studentId, jobId, time }),
+});
+
+const data = await res.json();
+toast(data.message || "✅ Interview scheduled");
+overlay.remove();
+incrementCard("positions-listed");
+await loadDashboard(); // 🔁 update calendar & interviews list
+
+    });
+  } catch (err) {
+    console.error("❌ Error opening schedule modal:", err);
+    toast("❌ Could not load data for scheduling");
+  }
+});
+
+// ✅ EXPORT DASHBOARD DATA
+document.getElementById('quick-export').addEventListener('click', () => {
+  window.open("http://localhost:5000/api/dashboard/export", "_blank");
+  toast("📂 Exporting CSV...");
+});
+
+function incrementCard(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const val = parseInt(el.textContent) || 0;
+  el.textContent = val + 1;
+  pulseCounts();
+}
+
+
+// ✅ POST JOB
+// ✅ Modern "Post Job" modal form
+document.getElementById("post-job-btn").addEventListener("click", () => {
+  // Create overlay
+  const overlay = document.createElement("div");
+  overlay.style.position = "fixed";
+  overlay.style.top = "0";
+  overlay.style.left = "0";
+  overlay.style.width = "100vw";
+  overlay.style.height = "100vh";
+  overlay.style.background = "rgba(0,0,0,0.6)";
+  overlay.style.display = "flex";
+  overlay.style.justifyContent = "center";
+  overlay.style.alignItems = "center";
+  overlay.style.zIndex = "9999";
+
+  // Modal
+  const modal = document.createElement("div");
+  modal.style.background = "white";
+  modal.style.padding = "24px";
+  modal.style.borderRadius = "16px";
+  modal.style.width = "400px";
+  modal.style.boxShadow = "0 0 15px rgba(0,0,0,0.2)";
+  modal.innerHTML = `
+    <h2 style="margin-bottom:16px;text-align:center;">Post New Job</h2>
+    <label>Job Title:</label>
+    <input id="jobTitle" style="width:100%;margin-bottom:10px;padding:6px;border:1px solid #ddd;border-radius:6px;">
+    <label>Description:</label>
+    <textarea id="jobDesc" rows="3" style="width:100%;margin-bottom:10px;padding:6px;border:1px solid #ddd;border-radius:6px;"></textarea>
+    <label>Location:</label>
+    <input id="jobLoc" style="width:100%;margin-bottom:10px;padding:6px;border:1px solid #ddd;border-radius:6px;">
+    <label>Status:</label>
+    <select id="jobStatus" style="width:100%;margin-bottom:16px;padding:6px;border:1px solid #ddd;border-radius:6px;">
+      <option value="Active">Active</option>
+      <option value="Closed">Closed</option>
+    </select>
+    <div style="text-align:center;">
+      <button id="postBtn" style="background:#0066ff;color:white;padding:8px 16px;border:none;border-radius:8px;cursor:pointer;">Post</button>
+      <button id="cancelJob" style="background:#ccc;color:black;padding:8px 16px;border:none;border-radius:8px;margin-left:8px;cursor:pointer;">Cancel</button>
+    </div>
+  `;
+
+  overlay.appendChild(modal);
+  document.body.appendChild(overlay);
+
+  // Cancel
+  document.getElementById("cancelJob").addEventListener("click", () => overlay.remove());
+
+  // Post
+  document.getElementById("postBtn").addEventListener("click", async () => {
+    const title = document.getElementById("jobTitle").value.trim();
+    const description = document.getElementById("jobDesc").value.trim();
+    const location = document.getElementById("jobLoc").value.trim();
+    const status = document.getElementById("jobStatus").value;
+
+    if (!title || !description || !location) {
+      toast("⚠️ Please fill all fields");
+      return;
+    }
+
+    try {
+      const res = await fetch("http://localhost:5000/api/dashboard/postjob", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title,
+          description,
+          location,
+          status,
+          company: "Acme Tech Solutions"
+        })
+      });
+
+      const data = await res.json();
+toast(data.message || "✅ Job posted successfully");
+overlay.remove();
+await loadDashboard(); // 🔁 Refresh data
+    } catch (err) {
+      toast("❌ Failed to post job");
+    }
+  });
+});
+
+
+/* ✅ Call new version instead of old one */
+// document.addEventListener('DOMContentLoaded', initDashboard);
+document.addEventListener('DOMContentLoaded', initDashboardWithBackend);
+
+
+
+//* ---------- UNIVERSAL DASHBOARD REFRESH ---------- */
+async function loadDashboard() {
+  try {
+    const res = await fetch("http://localhost:5000/api/dashboard");
+    const data = await res.json();
+
+    if (!data.counts) {
+      console.error("⚠️ Invalid backend data:", data);
+      return;
+    }
+
+    console.log("🔁 Dashboard refreshed:", data.counts);
+
+    // Update the numbers
+    document.getElementById("your-hirings").textContent = data.counts.yourHirings;
+    document.getElementById("new-verified").textContent = data.counts.newVerifiedCandidates;
+    document.getElementById("positions-listed").textContent = data.counts.positionsListed;
+    document.getElementById("shortlisted-count").textContent = data.counts.shortlistedCandidates;
+
+    // Redraw visuals
+    drawSparkline(document.getElementById("spark-hirings"), [2,3,4,6,7,5,8]);
+    renderWeek(data.events || [], new Date());
+    renderUpcoming(data.events || []);
+    renderActivity(data.activity || []);
+
+    pulseCounts(); // animate number updates
+  } catch (err) {
+    console.error("❌ Error refreshing dashboard:", err);
+  }
+}
+
+/* Small visual pop when numbers update */
+function pulseCounts() {
+  ["your-hirings", "new-verified", "positions-listed", "shortlisted-count"].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.style.transition = "transform 0.25s ease, color 0.25s ease";
+    el.style.transform = "scale(1.25)";
+    el.style.color = "var(--accent)";
+    setTimeout(() => {
+      el.style.transform = "scale(1)";
+      el.style.color = "";
+    }, 300);
+  });
+}
+
+}

@@ -206,3 +206,17 @@ html,body { height:100%; margin:0; background:linear-gradient(180deg,var(--bg),v
   .brand-top { font-size: 0.95rem; }
   .search input { min-width: 160px; } /* keep search small so brand can fit */
 }
+
+select, input[type="datetime-local"] {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+select:focus, input[type="datetime-local"]:focus {
+  outline: 2px solid var(--accent);
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: 2px solid var(--accent);
+}
